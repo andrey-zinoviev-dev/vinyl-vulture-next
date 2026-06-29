@@ -1,0 +1,125 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  ADMIN
+  BUYER
+  SELLER
+
+  @@map("user_role")
+}
+
+model User {
+  id           String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email        String     @unique @db.VarChar(255)
+  passwordHash String     @map("password_hash") @db.VarChar(255)
+  username     String     @unique @db.VarChar(100)
+  roles        UserRole[] @default([BUYER])
+  createdAt    DateTime   @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt    DateTime   @updatedAt @map("updated_at") @db.Timestamptz
+  lots         Lot[]
+
+  @@map("users")
+}
+
+enum MediaType {
+  VINYL
+  CD
+  CASSETTE
+
+  @@map("media_type")
+}
+
+enum Genre {
+  ROCK
+  JAZZ
+  ELECTRONIC
+  HIP_HOP
+  CLASSICAL
+  FOLK
+  METAL
+  PUNK
+  SOUL
+  REGGAE
+  BLUES
+  LATIN
+  FUNK
+  POP
+  SOUNDTRACK
+  OTHER
+
+  @@map("genre")
+}
+
+model Release {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title       String    @db.VarChar(255)
+  artist      String    @db.VarChar(255)
+  genre       Genre    
+  mediaType   MediaType @map("media_type")
+  label       String?   @db.VarChar(255)
+  catNumber   String?   @map("cat_number") @db.VarChar(100)
+  releaseYear Int?      @map("release_year")
+  barcode     String?   @db.VarChar(50)
+  tracklist   Json?     @db.JsonB
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  lots        Lot[]
+
+  @@index([artist])
+  @@index([genre])
+  @@index([releaseYear])
+  @@map("releases")
+}
+
+enum ItemCondition {
+  M
+  NM
+  VG_PLUS
+  VG
+  G_PLUS
+  G
+  F
+  P
+
+  @@map("item_condition")
+}
+
+enum LotStatus {
+  ACTIVE
+  SOLD
+  SUSPENDED
+
+  @@map("lot_status")
+}
+
+model Lot {
+  id              String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  releaseId       String         @map("release_id") @db.Uuid
+  sellerId        String         @map("seller_id") @db.Uuid
+  price           Decimal        @db.Decimal(12, 2)
+  quantity        Int            @default(1)
+  mediaCondition  ItemCondition  @map("media_condition")
+  sleeveCondition ItemCondition? @map("sleeve_condition")
+  comment         String?        @db.Text
+  status          LotStatus      @default(ACTIVE)
+  createdAt       DateTime       @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime       @updatedAt @map("updated_at") @db.Timestamptz
+
+  release Release @relation(fields: [releaseId], references: [id], onDelete: Cascade)
+  seller  User    @relation(fields: [sellerId], references: [id], onDelete: Restrict)
+
+  @@index([releaseId])
+  @@index([sellerId])
+  @@map("lots")
+}
