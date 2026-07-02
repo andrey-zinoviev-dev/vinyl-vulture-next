@@ -1,0 +1,40 @@
+import type { ReleaseType } from "@/features/releases/releases.types";
+
+export const POPULAR_RELEASES_MOCK: ReleaseType[] = [
+  {
+    id: "mock-1",
+    title: "The Dark Side of the Moon",
+    artist: "Pink Floyd",
+    mediaType: "VINYL",
+    label: "Capitol Records",
+    catNumber: "1234567890",
+    releaseYear: 1973,
+    barcode: "1234567890",
+    tracklist: [],
+    createdAt: new Date(),
+  },
+  {
+    id: "mock-2",
+    title: "Kind of Blue",
+    artist: "Miles Davis",
+    mediaType: "VINYL",
+    label: "Capitol Records",
+    catNumber: "1234567890",
+    releaseYear: 1973,
+    barcode: "1234567890",
+    tracklist: [],
+    createdAt: new Date(),
+  },
+  {
+    id: "mock-3",
+    title: "Abbey Road",
+    artist: "The Beatles",
+    mediaType: "VINYL",
+    label: "Capitol Records",
+    catNumber: "1234567890",
+    releaseYear: 1973,
+    barcode: "1234567890",
+    tracklist: [],
+    createdAt: new Date(),
+  },
+];
