@@ -1,6 +1,6 @@
 "use client";
 import { SearchInput } from "./SearchInput";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ReleaseCard } from "@/features/releases/components/ReleaseCard";
 import { ReleaseType } from "@/features/releases/releases.types";
 import { POPULAR_RELEASES_MOCK } from "../search.mock";
@@ -8,9 +8,13 @@ import { POPULAR_RELEASES_MOCK } from "../search.mock";
 
 
 export function SearchContainer() {
+   
+
     const [q, setQ] = useState("");
     const [releases, setReleases] = useState<ReleaseType[]>([]);
     const [isOpen, setIsOpen] = useState(false);
+
+    const searchWidgetRef = useRef<HTMLDivElement>(null);
 
     //functions
     function handleSearch(q: string, signal: AbortSignal) {
@@ -28,10 +32,14 @@ export function SearchContainer() {
         setIsOpen(true);
     };
 
-    function handleClose() {
-        console.log("handleClose");
-        // setIsOpen(false);
-    };
+    // function handleClose() {
+    //     console.log("handleClose");
+    //     setIsOpen(false);
+    // };
+
+    //variables
+
+    const searchResults = q.trim().length > 1 ? releases : POPULAR_RELEASES_MOCK;
 
     //effects
     useEffect(() => {
@@ -55,15 +63,39 @@ export function SearchContainer() {
         };
     }, [q]);
 
+    useEffect(() => {
+        if(!isOpen) return;
+
+        const handleMouseDown = (e: MouseEvent) => {
+            const searchWidget = searchWidgetRef.current;
+
+            if(!searchWidget || !(e.target instanceof Node)) return;
+
+            if (!searchWidget.contains(e.target)) {
+                setIsOpen(false);
+            }
+        }
+        
+        document.addEventListener("mousedown", handleMouseDown);
+
+        return () => {
+            document.removeEventListener("mousedown", handleMouseDown);
+        }
+
+    }, [isOpen]);
+
     return (
-        <div>
+        <div ref={searchWidgetRef}>
             <SearchInput onChange={setQ} value={q} onFocus={handleOpen} />
             {/* <SearchFilters /> */}
 
             {isOpen && (
-                (q.trim().length > 0 ? releases : POPULAR_RELEASES_MOCK).map((release) => (
-                    <ReleaseCard key={release.id} release={release} />
-                ))
+                <ul>
+                    {searchResults.map((release) => (
+                        <ReleaseCard key={release.id} release={release} />
+                    ))}
+                </ul>
+               
             )}
         </div>
     );
