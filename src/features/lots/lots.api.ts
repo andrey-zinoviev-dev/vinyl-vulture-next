@@ -1,7 +1,8 @@
 import prisma from "@/lib/prisma";
 
-export const getLots = async () => {
-    const lots = await prisma.lot.findMany( {
+export const getLotsByReleaseId = async (releaseId: string) => {
+    const lots = await prisma.lot.findMany({
+        where: { releaseId },
         include: {
             release: true,
             seller: true,
@@ -10,7 +11,7 @@ export const getLots = async () => {
     return lots;
 };
 
-export const getLot = async (id: string) => {
+export const getLotById = async (id: string) => {
     const lot = await prisma.lot.findUnique({
         where: { id },
         include: {

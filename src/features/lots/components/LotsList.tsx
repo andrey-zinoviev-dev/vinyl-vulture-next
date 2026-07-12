@@ -1,8 +1,11 @@
-import { getLots } from "../lots.api";
+import { LotWithReleaseAndSeller } from "../lots.types";
 import { LotCard } from "./LotCard";
 
-export async function LotsList() {
-    const lots = await getLots();
+interface LotsListProps {
+    lots: LotWithReleaseAndSeller[];
+}
+
+export function LotsList({ lots }: LotsListProps) {
     return <div>
         <h2>Lots</h2>
         {lots.map((lot) => (
