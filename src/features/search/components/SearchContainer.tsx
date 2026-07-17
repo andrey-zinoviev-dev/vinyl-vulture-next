@@ -92,7 +92,7 @@ export function SearchContainer() {
             {isOpen && (
                 <ul>
                     {searchResults.map((release) => (
-                        <ReleaseCard key={release.id} release={release} />
+                        <ReleaseCard key={release.id} release={release} variant="search" />
                     ))}
                 </ul>
                

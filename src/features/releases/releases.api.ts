@@ -1,7 +1,10 @@
 import prisma from "@/lib/prisma";
 
-export const getReleases = async () => {
-    const releases = await prisma.release.findMany();
+export const getReleases = async ({ limit, offset, sort }: { limit: number, offset: number, sort: string }) => {
+    const releases = await prisma.release.findMany({
+        take: limit,
+        skip: offset,
+    });
     return releases;
 };
 

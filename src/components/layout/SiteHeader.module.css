@@ -1,0 +1,24 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  background-color: var(--background, #fafafa);
+  border-bottom: 1px solid color-mix(in srgb, var(--foreground, #171717) 8%, transparent);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 16px clamp(24px, 5vw, 80px);
+}
+
+@media (prefers-color-scheme: dark) {
+  .header {
+    background-color: #000;
+  }
+}

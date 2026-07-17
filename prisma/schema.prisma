@@ -66,15 +66,17 @@ model Release {
   id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title       String    @db.VarChar(255)
   artist      String    @db.VarChar(255)
-  genre       Genre    
+  coverArt    String    @map("cover_art") @db.Text  
+  genre       Genre     @default(OTHER)
   mediaType   MediaType @map("media_type")
-  label       String?   @db.VarChar(255)
+  label       String?   @db.Text
   catNumber   String?   @map("cat_number") @db.VarChar(100)
   releaseYear Int?      @map("release_year")
   barcode     String?   @db.VarChar(50)
   tracklist   Json?     @db.JsonB
   createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
   lots        Lot[]
+  collectionItems CollectionRelease[]
 
   @@index([artist])
   @@index([genre])
@@ -122,4 +124,30 @@ model Lot {
   @@index([releaseId])
   @@index([sellerId])
   @@map("lots")
+}
+
+model Collection {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug        String   @unique @db.VarChar(100)   // "summer" → /collections/summer
+  title       String   @db.VarChar(255)           // "Летние вайбы"
+  description String   @db.Text
+  label       String?  @db.VarChar(50)            // "• VV" — или оставить хардкодом в UI
+  coverArt    String?  @map("cover_art") @db.Text // опционально, для страницы коллекции
+  isPublished Boolean  @default(false) @map("is_published")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz
+  items CollectionRelease[]
+  @@index([isPublished])
+  @@map("collections")
+}
+
+model CollectionRelease {
+  collectionId String @map("collection_id") @db.Uuid
+  releaseId    String @map("release_id") @db.Uuid
+  position     Int    @default(0)  // порядок карточек
+  collection Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  release    Release    @relation(fields: [releaseId], references: [id], onDelete: Cascade)
+  @@id([collectionId, releaseId])
+  @@index([releaseId])
+  @@map("collection_releases")
 }

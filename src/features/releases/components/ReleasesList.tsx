@@ -1,12 +1,20 @@
-import { getReleases } from "../releases.api";
+// import { getReleases } from "../releases.api";
 import { ReleaseCard } from "./ReleaseCard";
+import styles from "./ReleasesList.module.css";
+import { ReleaseType } from "../releases.types";
 
-export async function ReleasesList() {
-    const releases = await getReleases();
-    return <div>
-        <h2>Releases</h2>
-        {releases.map((release) => (
-            <ReleaseCard key={release.id} release={release} />
-        ))}
-    </div>
+interface ReleasesListProps {
+    releases: ReleaseType[];
+}
+
+export async function ReleasesList({ releases }: ReleasesListProps) {
+    // const releases = await getReleases();
+
+    return (
+        <div className={styles.grid}>
+            {releases.map((release) => (
+                <ReleaseCard key={release.id} release={release} />
+            ))}
+        </div>
+    );
 }
