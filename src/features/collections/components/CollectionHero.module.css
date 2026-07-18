@@ -1,101 +1,150 @@
 .hero {
-  position: relative;
   width: 100%;
+  color: #111;
   display: flex;
   flex-direction: column;
-  min-height: min(72vh, 720px);
+  gap: clamp(40px, 5vw, 64px);
 }
 
 .split {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  flex: 1;
-  min-height: min(60vh, 560px);
-  overflow: visible;
+  grid-template-columns: 1.5fr 1fr;
+  gap: clamp(24px, 4vw, 56px);
+  align-items: stretch;
 }
 
 .copy {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  gap: 28px;
-  padding: 48px clamp(24px, 4vw, 56px) 24px;
-  background: #fff;
+  justify-content: space-between;
+  gap: 48px;
   min-width: 0;
-  z-index: 1;
+  width: 100%;
 }
 
-.meta {
+.copyTop {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
+  width: 100%;
 }
 
 .label {
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  color: #888;
-  white-space: nowrap;
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 540px;
+  color: #000;
 }
 
 .description {
-  max-width: 28ch;
   margin: 0;
-  font-size: clamp(14px, 1.4vw, 18px);
-  line-height: 1.55;
-  letter-spacing: 0.02em;
+  max-width: 36ch;
+  font-size: clamp(13px, 1.15vw, 15px);
+  line-height: 1.65;
   color: #222;
 }
 
-.media {
-  position: relative;
-  min-height: 280px;
-  background: #e8e8e8;
-  overflow: hidden;
-}
-
-.image {
-  object-fit: cover;
-  object-position: center;
+.specs {
+  margin: 0;
+  font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #111;
 }
 
 .title {
   margin: 0;
-  font-size: clamp(48px, 12vw, 140px);
+  width: 100%;
+  font-size: clamp(36px, 5.5vw, 72px);
   font-weight: 800;
-  line-height: 0.85;
-  letter-spacing: -0.04em;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
   text-transform: uppercase;
   color: #111;
   word-break: break-word;
-  width: calc(200% + clamp(24px, 4vw, 48px));
-  max-width: none;
 }
 
-@media (max-width: 768px) {
-  .hero {
-    min-height: unset;
-  }
+.aside {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
 
+.coverBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.cover {
+  /* position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden; */
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background: #EFEFEF;
+
+  /* Центрируем сжавшийся тег <img> внутри квадрата */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.coverImage {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  /* border: 1px solid rgba(0, 0, 0, 0.15); */
+
+  /* Теперь рамка ляжет строго по физическому контуру изображения */
+  
+}
+
+.coverMeta {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.coverName {
+  margin: 0;
+  min-width: 0;
+  font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #111;
+  text-align: left;
+}
+
+.releases {
+  width: 100%;
+}
+
+@media (max-width: 900px) {
   .split {
     grid-template-columns: 1fr;
-    min-height: unset;
-  }
-
-  .media {
-    order: -1;
-    aspect-ratio: 4 / 5;
-    min-height: unset;
   }
 
   .copy {
-    justify-content: flex-start;
-    padding: 32px 24px 24px;
-    gap: 20px;
+    order: 1;
+    gap: 28px;
   }
 
-  .title {
-    width: 100%;
-    font-size: clamp(40px, 14vw, 72px);
+  .aside {
+    order: 0;
+    max-width: 420px;
   }
 }

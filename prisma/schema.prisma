@@ -131,7 +131,7 @@ model Collection {
   slug        String   @unique @db.VarChar(100)   // "summer" → /collections/summer
   title       String   @db.VarChar(255)           // "Летние вайбы"
   description String   @db.Text
-  label       String?  @db.VarChar(50)            // "• VV" — или оставить хардкодом в UI
+  label       String?  @db.Text            // "• VV" — или оставить хардкодом в UI
   coverArt    String?  @map("cover_art") @db.Text // опционально, для страницы коллекции
   isPublished Boolean  @default(false) @map("is_published")
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz

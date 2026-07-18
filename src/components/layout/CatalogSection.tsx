@@ -45,7 +45,7 @@ export function CatalogSection({
                 titleContent
               )}
             </h2>
-            <span className={styles.label}>{label}</span>
+            {/* <span className={styles.label}>{label}</span> */}
           </div>
           <p className={styles.description}>{description}</p>
         </div>

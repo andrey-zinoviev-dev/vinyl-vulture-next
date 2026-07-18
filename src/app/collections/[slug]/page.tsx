@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { CollectionHero, getCollectionBySlug } from "@/features/collections";
-import { ReleasesList } from "@/features/releases";
 import styles from "./page.module.css";
 
 type CollectionPageProps = {
@@ -45,10 +44,8 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
                     description={collection.description}
                     label={collection.label}
                     coverArt={coverArt}
+                    releases={releases}
                 />
-                <section className={styles.releases} aria-label="Релизы коллекции">
-                    <ReleasesList releases={releases} />
-                </section>
             </main>
         </div>
     );

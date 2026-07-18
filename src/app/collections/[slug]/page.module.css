@@ -18,12 +18,7 @@
   width: 100%;
   max-width: 1440px;
   flex-direction: column;
-  gap: 56px;
   padding: 100px clamp(24px, 5vw, 80px) 80px;
-}
-
-.releases {
-  width: 100%;
 }
 
 @media (max-width: 600px) {
