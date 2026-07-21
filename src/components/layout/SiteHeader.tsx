@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { SearchContainer } from "@/features/search";
 import styles from "./SiteHeader.module.css";
 
@@ -5,9 +6,18 @@ export function SiteHeader() {
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
-        <span>LOGO</span>
+        <Link href="/" className={styles.logo}>
+          Vinyl Vultures
+        </Link>
         <SearchContainer />
-        <button>Menu</button>
+        <div className={styles.actions}>
+          <button type="button" className={styles.action}>
+            Корзина
+          </button>
+          <button type="button" className={styles.action}>
+            Войти
+          </button>
+        </div>
         {/* <ThemeToggle /> */}
       </div>
     </header>

@@ -1,4 +1,5 @@
 import { CatalogSection } from "@/components/layout/CatalogSection";
+import { Footer } from "@/components/layout/Footer";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { getReleases, ReleasesList } from "@/features/releases";
 import styles from "./page.module.css";
@@ -41,6 +42,7 @@ export default async function Home() {
           )
         })}
       </main>
+      <Footer />
     </div>
   );
 }

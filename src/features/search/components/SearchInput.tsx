@@ -1,3 +1,5 @@
+import styles from "./SearchInput.module.css";
+
 interface SearchInputProps {
     // onSearch: (q: string) => void;
     onChange: (q: string) => void;
@@ -5,12 +7,14 @@ interface SearchInputProps {
     value: string;
 }
 export function SearchInput({ onChange, onFocus, value }: SearchInputProps) {
-    return <form method="GET" onSubmit={e => {
-        e.preventDefault();
-        // onSearch(value);    //call the onSearch function with the value
-    }}>
-        <input type="text" placeholder="Search" name="q" onChange={e => onChange(e.target.value)} value={value} 
-        onFocus={onFocus} />
-        {/* <button type="submit">Search</button> */}
-    </form>
-}
+    return (
+        <input
+        className={styles.input}
+        type="text"
+        placeholder="Поиск"
+        name="q"
+        onChange={e => onChange(e.target.value)}
+        value={value}
+        onFocus={onFocus}
+    />
+)}

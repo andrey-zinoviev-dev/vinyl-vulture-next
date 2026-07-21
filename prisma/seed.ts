@@ -1,16 +1,21 @@
 import "dotenv/config";
+import bcrypt from "bcryptjs";
 import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
 import {
   Genre,
+  ItemCondition,
+  LotStatus,
   MediaType,
   PrismaClient,
+  UserRole,
   type Prisma,
 } from "../src/generated/prisma/client";
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter: new PrismaPg(pool) });
 
+const DEV_PASSWORD = "password123";
 const PLACEHOLDER_COVER = "/placeholders/release-cover.svg";
 const PHANTOM_LIBERTY_COVER =
   "https://i.pinimg.com/1200x/7e/97/bb/7e97bbab200333850c73197d0528419e.jpg";
@@ -303,6 +308,208 @@ type CollectionSeed = {
   releaseTitles: string[];
 };
 
+type SellerSeed = {
+  email: string;
+  username: string;
+  roles: UserRole[];
+};
+
+/** Extra sellers on top of kolya_plates / retro_vinyl already in the DB. */
+const SELLERS: SellerSeed[] = [
+  {
+    email: "dusty.groove@example.com",
+    username: "dusty_groove",
+    roles: [UserRole.SELLER, UserRole.BUYER],
+  },
+  {
+    email: "needle.drop@example.com",
+    username: "needle_drop",
+    roles: [UserRole.SELLER],
+  },
+  {
+    email: "crate.digger@example.com",
+    username: "crate_digger",
+    roles: [UserRole.SELLER, UserRole.BUYER],
+  },
+  {
+    email: "spin.city@example.com",
+    username: "spin_city",
+    roles: [UserRole.SELLER],
+  },
+];
+
+type LotSeed = {
+  /** Must match an existing Release.title in the DB. */
+  releaseTitle: string;
+  sellerUsername: string;
+  price: number;
+  quantity?: number;
+  mediaCondition: ItemCondition;
+  sleeveCondition?: ItemCondition | null;
+  comment?: string | null;
+  status?: LotStatus;
+};
+
+/**
+ * Lots for releases already in the catalog (classics + NEW_RELEASES).
+ * Idempotent: skips if the same seller already lists the same title at the same price.
+ */
+const LOTS: LotSeed[] = [
+  {
+    releaseTitle: "Cave World",
+    sellerUsername: "dusty_groove",
+    price: 32.0,
+    mediaCondition: ItemCondition.NM,
+    sleeveCondition: ItemCondition.NM,
+    comment: "Sealed Year0001 press.",
+  },
+  {
+    releaseTitle: "Cave World",
+    sellerUsername: "kolya_plates",
+    price: 24.5,
+    mediaCondition: ItemCondition.VG_PLUS,
+    sleeveCondition: ItemCondition.VG,
+    comment: "Played a handful of times, no skips.",
+  },
+  {
+    releaseTitle: "Wayward Fire",
+    sellerUsername: "needle_drop",
+    price: 14.99,
+    mediaCondition: ItemCondition.VG_PLUS,
+    sleeveCondition: ItemCondition.VG_PLUS,
+  },
+  {
+    releaseTitle: "ANTIHERO",
+    sellerUsername: "crate_digger",
+    price: 18.0,
+    mediaCondition: ItemCondition.NM,
+    sleeveCondition: ItemCondition.NM,
+    comment: "Cassette, still in wrap.",
+  },
+  {
+    releaseTitle: "Conflict DLC",
+    sellerUsername: "spin_city",
+    price: 36.5,
+    mediaCondition: ItemCondition.M,
+    sleeveCondition: ItemCondition.NM,
+  },
+  {
+    releaseTitle: "Glimmer of God",
+    sellerUsername: "dusty_groove",
+    price: 16.0,
+    mediaCondition: ItemCondition.NM,
+    sleeveCondition: ItemCondition.VG_PLUS,
+  },
+  {
+    releaseTitle: "Out of Touch",
+    sellerUsername: "needle_drop",
+    price: 22.0,
+    mediaCondition: ItemCondition.VG_PLUS,
+    sleeveCondition: ItemCondition.VG,
+    comment: "Cassette shell mint, slight fade on J-card.",
+  },
+  {
+    releaseTitle: "Technology",
+    sellerUsername: "crate_digger",
+    price: 28.99,
+    mediaCondition: ItemCondition.NM,
+    sleeveCondition: ItemCondition.NM,
+  },
+  {
+    releaseTitle: "Rebirth",
+    sellerUsername: "spin_city",
+    price: 19.5,
+    mediaCondition: ItemCondition.VG_PLUS,
+    sleeveCondition: ItemCondition.VG_PLUS,
+    comment: "Insomniac CD, booklet included.",
+  },
+  {
+    releaseTitle: "War Music",
+    sellerUsername: "dusty_groove",
+    price: 27.0,
+    mediaCondition: ItemCondition.VG,
+    sleeveCondition: ItemCondition.VG,
+  },
+  {
+    releaseTitle: "Основа",
+    sellerUsername: "needle_drop",
+    price: 15.0,
+    mediaCondition: ItemCondition.VG_PLUS,
+    sleeveCondition: null,
+    comment: "Cassette only, no case.",
+  },
+  {
+    releaseTitle: "Even In Arcadia",
+    sellerUsername: "crate_digger",
+    price: 41.0,
+    mediaCondition: ItemCondition.M,
+    sleeveCondition: ItemCondition.M,
+    comment: "Black vinyl, unopened.",
+  },
+  {
+    releaseTitle: "Even In Arcadia",
+    sellerUsername: "retro_vinyl",
+    price: 34.0,
+    mediaCondition: ItemCondition.NM,
+    sleeveCondition: ItemCondition.VG_PLUS,
+  },
+  {
+    releaseTitle: "Phantom Liberty",
+    sellerUsername: "spin_city",
+    price: 21.0,
+    mediaCondition: ItemCondition.NM,
+    sleeveCondition: ItemCondition.NM,
+  },
+  {
+    releaseTitle: "Nevermind",
+    sellerUsername: "dusty_groove",
+    price: 11.99,
+    quantity: 2,
+    mediaCondition: ItemCondition.VG,
+    sleeveCondition: ItemCondition.G_PLUS,
+  },
+  {
+    releaseTitle: "The Dark Side of the Moon",
+    sellerUsername: "crate_digger",
+    price: 95.0,
+    mediaCondition: ItemCondition.VG_PLUS,
+    sleeveCondition: ItemCondition.VG_PLUS,
+    comment: "Gatefold clean, includes poster.",
+  },
+  {
+    releaseTitle: "Madvillainy",
+    sellerUsername: "needle_drop",
+    price: 52.0,
+    mediaCondition: ItemCondition.NM,
+    sleeveCondition: ItemCondition.NM,
+  },
+  {
+    releaseTitle: "Unknown Pleasures",
+    sellerUsername: "spin_city",
+    price: 185.0,
+    mediaCondition: ItemCondition.VG,
+    sleeveCondition: ItemCondition.G_PLUS,
+    comment: "Factory FACT 10 style reissue.",
+    status: LotStatus.ACTIVE,
+  },
+  {
+    releaseTitle: "OK Computer",
+    sellerUsername: "dusty_groove",
+    price: 15.5,
+    quantity: 2,
+    mediaCondition: ItemCondition.VG_PLUS,
+    sleeveCondition: ItemCondition.VG,
+  },
+  {
+    releaseTitle: "Master of Puppets",
+    sellerUsername: "kolya_plates",
+    price: 19.0,
+    mediaCondition: ItemCondition.VG_PLUS,
+    sleeveCondition: ItemCondition.VG,
+    comment: "Cassette, case scuffed.",
+  },
+];
+
 const COLLECTIONS: CollectionSeed[] = [
   {
     slug: "summer",
@@ -475,13 +682,117 @@ async function seedCollections() {
   return results;
 }
 
+async function seedSellers() {
+  const passwordHash = bcrypt.hashSync(DEV_PASSWORD, 10);
+  let created = 0;
+  let skipped = 0;
+
+  for (const seller of SELLERS) {
+    const existing = await prisma.user.findUnique({
+      where: { email: seller.email },
+      select: { id: true },
+    });
+
+    if (existing) {
+      skipped += 1;
+      continue;
+    }
+
+    await prisma.user.create({
+      data: {
+        email: seller.email,
+        username: seller.username,
+        passwordHash,
+        roles: seller.roles,
+      },
+    });
+    created += 1;
+  }
+
+  return { created, skipped };
+}
+
+async function seedLots() {
+  const sellerUsernames = [...new Set(LOTS.map((lot) => lot.sellerUsername))];
+  const releaseTitles = [...new Set(LOTS.map((lot) => lot.releaseTitle))];
+
+  const [sellers, releases] = await Promise.all([
+    prisma.user.findMany({
+      where: { username: { in: sellerUsernames } },
+      select: { id: true, username: true },
+    }),
+    prisma.release.findMany({
+      where: { title: { in: releaseTitles } },
+      select: { id: true, title: true },
+    }),
+  ]);
+
+  const sellerByUsername = new Map(sellers.map((s) => [s.username, s]));
+  const releaseByTitle = new Map(releases.map((r) => [r.title, r]));
+
+  const missingSellers = sellerUsernames.filter((u) => !sellerByUsername.has(u));
+  const missingReleases = releaseTitles.filter((t) => !releaseByTitle.has(t));
+
+  if (missingSellers.length > 0 || missingReleases.length > 0) {
+    const parts = [
+      missingSellers.length > 0 ? `sellers: ${missingSellers.join(", ")}` : null,
+      missingReleases.length > 0 ? `releases: ${missingReleases.join(", ")}` : null,
+    ].filter(Boolean);
+    throw new Error(`Cannot seed lots — missing ${parts.join("; ")}`);
+  }
+
+  let created = 0;
+  let skipped = 0;
+
+  for (const lot of LOTS) {
+    const seller = sellerByUsername.get(lot.sellerUsername)!;
+    const release = releaseByTitle.get(lot.releaseTitle)!;
+
+    const existing = await prisma.lot.findFirst({
+      where: {
+        sellerId: seller.id,
+        releaseId: release.id,
+        price: lot.price,
+      },
+      select: { id: true },
+    });
+
+    if (existing) {
+      skipped += 1;
+      continue;
+    }
+
+    await prisma.lot.create({
+      data: {
+        releaseId: release.id,
+        sellerId: seller.id,
+        price: lot.price,
+        quantity: lot.quantity ?? 1,
+        mediaCondition: lot.mediaCondition,
+        sleeveCondition: lot.sleeveCondition ?? null,
+        comment: lot.comment ?? null,
+        status: lot.status ?? LotStatus.ACTIVE,
+      },
+    });
+    created += 1;
+  }
+
+  return { created, skipped };
+}
+
 async function main() {
   const releases = await seedNewReleases();
+  const sellers = await seedSellers();
+  const lots = await seedLots();
   const collections = await seedCollections();
 
   console.log("Seed completed (additive — no catalog wipe).");
   console.log(`  Releases created: ${releases.created}`);
   console.log(`  Releases skipped: ${releases.skipped} (already existed)`);
+  console.log(`  Sellers created: ${sellers.created}`);
+  console.log(`  Sellers skipped: ${sellers.skipped} (already existed)`);
+  console.log(`  Lots created: ${lots.created}`);
+  console.log(`  Lots skipped: ${lots.skipped} (already existed)`);
   console.log(`  Collections:`);
   for (const collection of collections) {
     console.log(`    - ${collection.slug}: ${collection.title} (${collection.itemCount} items)`);

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { Footer } from "@/components/layout/Footer";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { CollectionHero, getCollectionBySlug } from "@/features/collections";
 import styles from "./page.module.css";
@@ -47,6 +48,7 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
                     releases={releases}
                 />
             </main>
+            <Footer />
         </div>
     );
 }
