@@ -10,14 +10,9 @@ type LotCardProps = {
 };
 
 const CONDITION_COLOR: Record<ItemCondition, string> = {
-    M: "#22c55e",
-    NM: "#3b82f6",
-    VG_PLUS: "#14b8a6",
-    VG: "#eab308",
-    G_PLUS: "#f97316",
-    G: "#ef4444",
-    F: "#a855f7",
-    P: "#6b7280",
+    NEW: "#22c55e",
+    USED_PERFECT: "#3b82f6",
+    USED_WITH_NOTES: "#eab308",
 };
 
 function formatIndex(index: number) {

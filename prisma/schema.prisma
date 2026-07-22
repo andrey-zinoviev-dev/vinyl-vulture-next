@@ -29,7 +29,7 @@ model User {
   createdAt    DateTime   @default(now()) @map("created_at") @db.Timestamptz
   updatedAt    DateTime   @updatedAt @map("updated_at") @db.Timestamptz
   lots         Lot[]
-
+  favouriteItems FavouriteRelease[]
   @@map("users")
 }
 
@@ -77,7 +77,7 @@ model Release {
   createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
   lots        Lot[]
   collectionItems CollectionRelease[]
-
+  favouriteItems FavouriteRelease[] 
   @@index([artist])
   @@index([genre])
   @@index([releaseYear])
@@ -85,14 +85,9 @@ model Release {
 }
 
 enum ItemCondition {
-  M
-  NM
-  VG_PLUS
-  VG
-  G_PLUS
-  G
-  F
-  P
+  NEW
+  USED_PERFECT
+  USED_WITH_NOTES
 
   @@map("item_condition")
 }
@@ -150,4 +145,15 @@ model CollectionRelease {
   @@id([collectionId, releaseId])
   @@index([releaseId])
   @@map("collection_releases")
+}
+
+model FavouriteRelease {
+  userId       String @map("user_id") @db.Uuid
+  releaseId    String @map("release_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  release      Release    @relation(fields: [releaseId], references: [id], onDelete: Cascade)
+  @@id([userId, releaseId])
+  @@index([releaseId])
+  @@map("favourite_releases")
 }

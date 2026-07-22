@@ -352,89 +352,89 @@ type LotSeed = {
 
 /**
  * Lots for releases already in the catalog (classics + NEW_RELEASES).
- * Idempotent: skips if the same seller already lists the same title at the same price.
+ * Idempotent: creates missing lots; updates condition fields on existing matches.
  */
 const LOTS: LotSeed[] = [
   {
     releaseTitle: "Cave World",
     sellerUsername: "dusty_groove",
     price: 32.0,
-    mediaCondition: ItemCondition.NM,
-    sleeveCondition: ItemCondition.NM,
+    mediaCondition: ItemCondition.NEW,
+    sleeveCondition: ItemCondition.NEW,
     comment: "Sealed Year0001 press.",
   },
   {
     releaseTitle: "Cave World",
     sellerUsername: "kolya_plates",
     price: 24.5,
-    mediaCondition: ItemCondition.VG_PLUS,
-    sleeveCondition: ItemCondition.VG,
+    mediaCondition: ItemCondition.USED_PERFECT,
+    sleeveCondition: ItemCondition.USED_WITH_NOTES,
     comment: "Played a handful of times, no skips.",
   },
   {
     releaseTitle: "Wayward Fire",
     sellerUsername: "needle_drop",
     price: 14.99,
-    mediaCondition: ItemCondition.VG_PLUS,
-    sleeveCondition: ItemCondition.VG_PLUS,
+    mediaCondition: ItemCondition.USED_PERFECT,
+    sleeveCondition: ItemCondition.USED_PERFECT,
   },
   {
     releaseTitle: "ANTIHERO",
     sellerUsername: "crate_digger",
     price: 18.0,
-    mediaCondition: ItemCondition.NM,
-    sleeveCondition: ItemCondition.NM,
+    mediaCondition: ItemCondition.NEW,
+    sleeveCondition: ItemCondition.NEW,
     comment: "Cassette, still in wrap.",
   },
   {
     releaseTitle: "Conflict DLC",
     sellerUsername: "spin_city",
     price: 36.5,
-    mediaCondition: ItemCondition.M,
-    sleeveCondition: ItemCondition.NM,
+    mediaCondition: ItemCondition.NEW,
+    sleeveCondition: ItemCondition.USED_PERFECT,
   },
   {
     releaseTitle: "Glimmer of God",
     sellerUsername: "dusty_groove",
     price: 16.0,
-    mediaCondition: ItemCondition.NM,
-    sleeveCondition: ItemCondition.VG_PLUS,
+    mediaCondition: ItemCondition.USED_PERFECT,
+    sleeveCondition: ItemCondition.USED_PERFECT,
   },
   {
     releaseTitle: "Out of Touch",
     sellerUsername: "needle_drop",
     price: 22.0,
-    mediaCondition: ItemCondition.VG_PLUS,
-    sleeveCondition: ItemCondition.VG,
+    mediaCondition: ItemCondition.USED_PERFECT,
+    sleeveCondition: ItemCondition.USED_WITH_NOTES,
     comment: "Cassette shell mint, slight fade on J-card.",
   },
   {
     releaseTitle: "Technology",
     sellerUsername: "crate_digger",
     price: 28.99,
-    mediaCondition: ItemCondition.NM,
-    sleeveCondition: ItemCondition.NM,
+    mediaCondition: ItemCondition.USED_PERFECT,
+    sleeveCondition: ItemCondition.USED_PERFECT,
   },
   {
     releaseTitle: "Rebirth",
     sellerUsername: "spin_city",
     price: 19.5,
-    mediaCondition: ItemCondition.VG_PLUS,
-    sleeveCondition: ItemCondition.VG_PLUS,
+    mediaCondition: ItemCondition.USED_PERFECT,
+    sleeveCondition: ItemCondition.USED_PERFECT,
     comment: "Insomniac CD, booklet included.",
   },
   {
     releaseTitle: "War Music",
     sellerUsername: "dusty_groove",
     price: 27.0,
-    mediaCondition: ItemCondition.VG,
-    sleeveCondition: ItemCondition.VG,
+    mediaCondition: ItemCondition.USED_WITH_NOTES,
+    sleeveCondition: ItemCondition.USED_WITH_NOTES,
   },
   {
     releaseTitle: "Основа",
     sellerUsername: "needle_drop",
     price: 15.0,
-    mediaCondition: ItemCondition.VG_PLUS,
+    mediaCondition: ItemCondition.USED_PERFECT,
     sleeveCondition: null,
     comment: "Cassette only, no case.",
   },
@@ -442,53 +442,53 @@ const LOTS: LotSeed[] = [
     releaseTitle: "Even In Arcadia",
     sellerUsername: "crate_digger",
     price: 41.0,
-    mediaCondition: ItemCondition.M,
-    sleeveCondition: ItemCondition.M,
+    mediaCondition: ItemCondition.NEW,
+    sleeveCondition: ItemCondition.NEW,
     comment: "Black vinyl, unopened.",
   },
   {
     releaseTitle: "Even In Arcadia",
     sellerUsername: "retro_vinyl",
     price: 34.0,
-    mediaCondition: ItemCondition.NM,
-    sleeveCondition: ItemCondition.VG_PLUS,
+    mediaCondition: ItemCondition.USED_PERFECT,
+    sleeveCondition: ItemCondition.USED_PERFECT,
   },
   {
     releaseTitle: "Phantom Liberty",
     sellerUsername: "spin_city",
     price: 21.0,
-    mediaCondition: ItemCondition.NM,
-    sleeveCondition: ItemCondition.NM,
+    mediaCondition: ItemCondition.USED_PERFECT,
+    sleeveCondition: ItemCondition.USED_PERFECT,
   },
   {
     releaseTitle: "Nevermind",
     sellerUsername: "dusty_groove",
     price: 11.99,
     quantity: 2,
-    mediaCondition: ItemCondition.VG,
-    sleeveCondition: ItemCondition.G_PLUS,
+    mediaCondition: ItemCondition.USED_WITH_NOTES,
+    sleeveCondition: ItemCondition.USED_WITH_NOTES,
   },
   {
     releaseTitle: "The Dark Side of the Moon",
     sellerUsername: "crate_digger",
     price: 95.0,
-    mediaCondition: ItemCondition.VG_PLUS,
-    sleeveCondition: ItemCondition.VG_PLUS,
+    mediaCondition: ItemCondition.USED_PERFECT,
+    sleeveCondition: ItemCondition.USED_PERFECT,
     comment: "Gatefold clean, includes poster.",
   },
   {
     releaseTitle: "Madvillainy",
     sellerUsername: "needle_drop",
     price: 52.0,
-    mediaCondition: ItemCondition.NM,
-    sleeveCondition: ItemCondition.NM,
+    mediaCondition: ItemCondition.USED_PERFECT,
+    sleeveCondition: ItemCondition.USED_PERFECT,
   },
   {
     releaseTitle: "Unknown Pleasures",
     sellerUsername: "spin_city",
     price: 185.0,
-    mediaCondition: ItemCondition.VG,
-    sleeveCondition: ItemCondition.G_PLUS,
+    mediaCondition: ItemCondition.USED_WITH_NOTES,
+    sleeveCondition: ItemCondition.USED_WITH_NOTES,
     comment: "Factory FACT 10 style reissue.",
     status: LotStatus.ACTIVE,
   },
@@ -497,15 +497,15 @@ const LOTS: LotSeed[] = [
     sellerUsername: "dusty_groove",
     price: 15.5,
     quantity: 2,
-    mediaCondition: ItemCondition.VG_PLUS,
-    sleeveCondition: ItemCondition.VG,
+    mediaCondition: ItemCondition.USED_PERFECT,
+    sleeveCondition: ItemCondition.USED_WITH_NOTES,
   },
   {
     releaseTitle: "Master of Puppets",
     sellerUsername: "kolya_plates",
     price: 19.0,
-    mediaCondition: ItemCondition.VG_PLUS,
-    sleeveCondition: ItemCondition.VG,
+    mediaCondition: ItemCondition.USED_PERFECT,
+    sleeveCondition: ItemCondition.USED_WITH_NOTES,
     comment: "Cassette, case scuffed.",
   },
 ];
@@ -742,7 +742,7 @@ async function seedLots() {
   }
 
   let created = 0;
-  let skipped = 0;
+  let updated = 0;
 
   for (const lot of LOTS) {
     const seller = sellerByUsername.get(lot.sellerUsername)!;
@@ -757,8 +757,20 @@ async function seedLots() {
       select: { id: true },
     });
 
+    const lotData = {
+      quantity: lot.quantity ?? 1,
+      mediaCondition: lot.mediaCondition,
+      sleeveCondition: lot.sleeveCondition ?? null,
+      comment: lot.comment ?? null,
+      status: lot.status ?? LotStatus.ACTIVE,
+    };
+
     if (existing) {
-      skipped += 1;
+      await prisma.lot.update({
+        where: { id: existing.id },
+        data: lotData,
+      });
+      updated += 1;
       continue;
     }
 
@@ -767,17 +779,13 @@ async function seedLots() {
         releaseId: release.id,
         sellerId: seller.id,
         price: lot.price,
-        quantity: lot.quantity ?? 1,
-        mediaCondition: lot.mediaCondition,
-        sleeveCondition: lot.sleeveCondition ?? null,
-        comment: lot.comment ?? null,
-        status: lot.status ?? LotStatus.ACTIVE,
+        ...lotData,
       },
     });
     created += 1;
   }
 
-  return { created, skipped };
+  return { created, updated };
 }
 
 async function main() {
@@ -792,7 +800,7 @@ async function main() {
   console.log(`  Sellers created: ${sellers.created}`);
   console.log(`  Sellers skipped: ${sellers.skipped} (already existed)`);
   console.log(`  Lots created: ${lots.created}`);
-  console.log(`  Lots skipped: ${lots.skipped} (already existed)`);
+  console.log(`  Lots updated: ${lots.updated} (conditions refreshed)`);
   console.log(`  Collections:`);
   for (const collection of collections) {
     console.log(`    - ${collection.slug}: ${collection.title} (${collection.itemCount} items)`);

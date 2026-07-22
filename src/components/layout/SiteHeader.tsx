@@ -14,9 +14,9 @@ export function SiteHeader() {
           <button type="button" className={styles.action}>
             Корзина
           </button>
-          <button type="button" className={styles.action}>
+          <Link href="/account" className={styles.action}>
             Войти
-          </button>
+          </Link>
         </div>
         {/* <ThemeToggle /> */}
       </div>

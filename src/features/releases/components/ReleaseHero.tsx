@@ -44,7 +44,6 @@ export function ReleaseHero({
     description,
 }: ReleaseHeroProps) {
     const rows: MetaRow[] = [
-        { label: "Исполнитель", value: artist },
         { label: "Жанр", value: formatGenre(genre) },
         // { label: "Формат", value: formatMediaType(mediaType) },
         { label: "Релиз", value: title },
@@ -70,9 +69,12 @@ export function ReleaseHero({
                 </div>
 
                 <div className={styles.details}>
-                    <h1 id="release-title" className={styles.title}>
-                        {title}
-                    </h1>
+                    <div className={styles.heading}>
+                        <h1 id="release-title" className={styles.title}>
+                            {title}
+                        </h1>
+                        <p className={styles.artist}>{artist}</p>
+                    </div>
 
                     <div className={styles.aside}>
                         <dl className={styles.meta}>

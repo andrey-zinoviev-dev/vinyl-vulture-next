@@ -1,0 +1,49 @@
+.page {
+  --background: #fff;
+  --text-primary: #000;
+  --text-secondary: #666;
+
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: var(--font-geist-sans);
+  background-color: var(--background);
+  color: var(--text-primary);
+}
+
+.main {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 40px clamp(24px, 5vw, 80px) 80px;
+  gap: 48px;
+  align-items: flex-start;
+}
+
+.sidebar {
+  flex-shrink: 0;
+  width: 240px;
+  position: sticky;
+  top: 80px;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .main {
+    flex-direction: column;
+    gap: 28px;
+    padding-top: 28px;
+  }
+
+  .sidebar {
+    width: 100%;
+    position: static;
+  }
+}

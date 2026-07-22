@@ -1,14 +1,9 @@
 import type { ItemCondition } from "@/generated/prisma/client";
 
 const CONDITION_LABEL: Record<ItemCondition, string> = {
-    M: "M",
-    NM: "NM",
-    VG_PLUS: "VG+",
-    VG: "VG",
-    G_PLUS: "G+",
-    G: "G",
-    F: "F",
-    P: "P",
+    NEW: "Новое",
+    USED_PERFECT: "Б/у идеал",
+    USED_WITH_NOTES: "Б/у с комментарием",
 };
 
 export function formatCondition(condition: ItemCondition) {
